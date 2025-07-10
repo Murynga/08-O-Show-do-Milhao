@@ -1,0 +1,28 @@
+{
+  "name": "08-o-show-do-milhao",
+  "version": "1.0.0",
+  "description": "Jogo do Show do Milhão feito com JavaScript para uma atividade da disciplina de WEB I",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Murynga/08-O-Show-do-Milhao.git"
+  },
+  "keywords": [
+    "Show",
+    "Milhão",
+    "WEB",
+    "Atividade",
+    "Node",
+    "JavaScript"
+  ],
+  "author": "Walisson Fernandes Dias",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Murynga/08-O-Show-do-Milhao/issues"
+  },
+  "homepage": "https://github.com/Murynga/08-O-Show-do-Milhao#readme"
+}
