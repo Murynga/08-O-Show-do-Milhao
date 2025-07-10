@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/Murynga/08-O-Show-do-Milhao/issues"
   },
-  "homepage": "https://github.com/Murynga/08-O-Show-do-Milhao#readme"
+  "homepage": "https://github.com/Murynga/08-O-Show-do-Milhao#readme",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
 }
