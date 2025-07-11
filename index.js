@@ -1,5 +1,3 @@
-menuPrincipal();
-
 /* Funções
 
 menuPrincipal() = para mostrar o menu principal;
@@ -15,14 +13,14 @@ pular uma pergunta e assistente natural (dica de uma inteligência humana)
 fazer uma função que retorna metade do dinheiro atual (ou seila) se o usuário parar 
 */
 
-const perguntas = [
+var perguntas = [
     {
         pergunta: "Qual organela realiza a respiração celular?",
         alternativa1: "A) Complexo de Golgi",
         alternativa2: "B) Mitocôndria",
         alternativa3: "C) Ribossomos",
         resposta: "B",
-        dica_ia: "Ela absorve nutrientes e os converte em energia para a célula."
+        dicaIn: "Ela absorve nutrientes e os converte em energia para a célula."
     },
     {
         pergunta: "Qual das seguintes frases foi popularizada por J. Robert Oppenheimer?",
@@ -30,7 +28,7 @@ const perguntas = [
         alternativa2: "B) \"Um vencedor é um sonhador que nunca desiste.\"", //Nelson Mandela
         alternativa3: "C) \"Em meio à escuridão, a luz persiste.\"", //Mahatma Gandhi
         resposta: "A",
-        dica_ia: "Não é algo muito positivo."
+        dicaIn: "Não é algo muito positivo."
     },
     {
         pergunta: "Qual dos seguintes filmes nacionais é o segundo filme estrangeiro mais visto do mundo?",
@@ -38,7 +36,7 @@ const perguntas = [
         alternativa2: "B) Tropa de Elite",
         alternativa3: "C) Cidade de Deus",
         resposta: "C",
-        dica_ia: "Na época em que estreou, foi dito que esse filme era muito exagerado na violência."
+        dicaIn: "Na época em que estreou, foi dito que esse filme era muito exagerado na violência."
     },
     {
         pergunta: "Quem assinou a Lei Áurea, em 1888, para dar fim a escravidão no Brasil?",
@@ -46,7 +44,7 @@ const perguntas = [
         alternativa2: "B) Princesa Isabel",
         alternativa3: "C) Leopoldina de Bragança",
         resposta: "B",
-        dica_ia: "Foi uma mulher."
+        dicaIn: "Foi uma mulher."
     },
     {
         pergunta: "Quantos gols marcou Rogério Ceni ao longo de sua carreira no futebol?",
@@ -54,15 +52,15 @@ const perguntas = [
         alternativa2: "B) 89 gols",
         alternativa3: "C) 157 gols",
         resposta: "A",
-        dica_ia: "Ele marcou mais de 100 gols."
+        dicaIn: "Ele marcou mais de 100 gols."
     },
     {
         pergunta: "Quem foi o vocalista principal da banda Linkin Park?",
-        alternativa1: "A) josé",
+        alternativa1: "A) Marshall Bruce Mathers III",
         alternativa2: "B) Mike Shinoda",
         alternativa3: "C) Chester Bennington",
         resposta: "C",
-        dica_ia: "Ele nos deixou em 2017."
+        dicaIn: "Ele nos deixou em 2017."
     },
     {
         pergunta: "Qual dessas cidades é considerada a Capital Mundial da Cachaça?",
@@ -70,7 +68,7 @@ const perguntas = [
         alternativa2: "B) Salinas",
         alternativa3: "C) Curral de Dentro",
         resposta: "B",
-        dica_ia: "é a mais populosa entre as três opções."
+        dicaIn: "é a mais populosa entre as três opções."
     },
     {
         pergunta: "Em que data surgiu a TV Globinho?",
@@ -78,7 +76,7 @@ const perguntas = [
         alternativa2: "B) 4 de Março de 2004",
         alternativa3: "C) 3 de Julho de 2000",
         resposta: "C",
-        dica_ia: "Foi antes de 2004."
+        dicaIn: "Foi antes de 2004."
     },
     {
         pergunta: "Quem foi Edson Arantes do Nascimento",
@@ -86,7 +84,7 @@ const perguntas = [
         alternativa2: "B) Tostão",
         alternativa3: "C) Pelé",
         resposta: "C",
-        dica_ia: "Ele marcou mais de 400 gols em sua carreira."
+        dicaIn: "Ele marcou mais de 400 gols em sua carreira."
     },
     {
         pergunta: "Qual dos seguintes aeroportos se localiza na cidade do Rio de janeiro? ",
@@ -94,7 +92,7 @@ const perguntas = [
         alternativa2: "B) Aeroporto Luís Eduardo Magalhães",
         alternativa3: "C) Aeroporto Santa Genoveva",
         resposta: "A",
-        dica_ia: "Seu nome foi inspirado em um inventor brasileiro."
+        dicaIn: "Seu nome foi inspirado em um inventor brasileiro."
     },
     {
         pergunta: "qual presidente brasileiro renunciou ao cargo em 1992?",
@@ -102,7 +100,7 @@ const perguntas = [
         alternativa2: "B) Itamar Franco",
         alternativa3: "C) Fernando Collor",
         resposta: "C",
-        dica_ia: "Foi ele quem confiscou as poupanças de inúmeros brasileiros."
+        dicaIn: "Foi ele quem confiscou as poupanças de inúmeros brasileiros."
     },
     {
         pergunta: "Qual destes países não fica no continente americano?",
@@ -110,7 +108,7 @@ const perguntas = [
         alternativa2: "B) Panamá",
         alternativa3: "C) Costa Rica",
         resposta: "A",
-        dica_ia: "Nesse país, não se fala a mesma linguagem que as duas outras opções."
+        dicaIn: "Nesse país, não se fala a mesma linguagem que as duas outras opções."
     },
     {
         pergunta: "O que é um sudário?",
@@ -118,7 +116,7 @@ const perguntas = [
         alternativa2: "B) O mesmo que um xale",
         alternativa3: "C) Pessoa que nasceu no Sudão",
         resposta: "A",
-        dica_ia: "A resposta envolve Jesus Cristo."
+        dicaIn: "A resposta envolve Jesus Cristo."
     },
     {
         pergunta: "O que é uma \"piroga\"?",
@@ -126,7 +124,7 @@ const perguntas = [
         alternativa2: "B) Uma embarcação indígena",
         alternativa3: "C) Uma arma africana",
         resposta: "B",
-        dica_ia: "Possui madeira em sua composição."
+        dicaIn: "Possui madeira em sua composição."
     },
     {
         pergunta: "Em que dia nasceu e em que dia foi registrado o Presidente Lula?",
@@ -134,9 +132,11 @@ const perguntas = [
         alternativa2: "B) 8 e 27 de Outubro",
         alternativa3: "C) 6 e 27 de Outubro",
         resposta: "C",
-        dica_ia: "Ambas as coisas ocorreram no décimo mês do ano."
+        dicaIn: "Ambas as coisas ocorreram no décimo mês do ano."
     }
 ]
+
+menuPrincipal();
 
 function menuPrincipal() {
 
@@ -171,30 +171,33 @@ function menuPrincipal() {
 
 function jogo() {
 
+    let perguntasRestantes = [...perguntas];
     let nome, rodada, prêmio, cartas = true, pular = true, assistente = true;
+    const prompt = require('prompt-sync')();
 
-    nome = prompt("Qual é o seu nome");
+    console.log("");
+    nome = prompt("Digite seu nome:");
 
 
     for(rodada = 1; rodada <= 5; rodada++) {
-        let perguntaAtual;
-        perguntaAtual = escolhePergunta();
+        let perguntaAtual, opcao = "J";
+        perguntaAtual = escolhePergunta(perguntasRestantes);
 
-        console.log(`-------<| ${nome} - ${rodada}ª rodada |>-------`);
+        console.log(`-------<| ${nome} - ${rodada}ª rodada |>-------\n`);
 
         console.log(perguntaAtual.pergunta);
 
-        console.log(`\n${alternativa1}`);
-        console.log(`${alternativa2}`);
-        console.log(`${alternativa3}`);
+        console.log(`\n${perguntaAtual.alternativa1}`);
+        console.log(`${perguntaAtual.alternativa2}`);
+        console.log(`${perguntaAtual.alternativa3}`);
 
-        console.log("Digite a letra correspondente a sua alernativa, ou digite\n",
-                    "1. Cartas | 2. Pular | 3. Assistente natural\n",
+        console.log("\nDigite a letra correspondente a sua alernativa, ou digite\n",
+                    "1. Cartas | 2. Assistente natural\n",
                     "para usar uma dica, ou digite P para parar.\n\n");
 
-        while(opcao != "A", "B", "C", "P", "1", "2", "3") {
+        while (!["A", "B", "C", "P", "1", "2"].includes(opcao.toUpperCase())) {
 
-            let opcao = prompt("Opção: ");
+            opcao = prompt("Opção: ");
 
             checaOpcao: if (opcao.toUpperCase() == perguntaAtual.resposta) {
                 console.log("Certa resposta!");
@@ -208,31 +211,22 @@ function jogo() {
                     opcao = "0";
                     break checaOpcao;
                 }
-                dicaCartas();
+                dicaCartas(perguntaAtual.resposta);
                 cartas = false;
                 
             } else if (opcao.toUpperCase() == "2") {
-                if (cartas == false) {
-                    console.log("Você já pulou uma pergunta!");
-                    opcao = "0";
-                    break checaOpcao;
-                }
-                pularVez();
-                pular = false;
-
-            } else if (opcao.toUpperCase() == "3") {
                 if (cartas == false) {
                     console.log("Você já usou o assistente natural!");
                     opcao = "0";
                     break checaOpcao;
                 }
-                dicaAssistente();
+                dicaAssistente(perguntaAtual.dicaIn);
                 assistente = false;
 
             } else if (opcao.toUpperCase() == "P") {
                 paraJogo();
                 
-            } else if (opcao.toUpperCase() != "A", "B", "C", "P", "1", "2", "3") {
+            } else if (opcao.toUpperCase() != "A", "B", "C", "P", "1", "2") {
                 console.log("\nDigite uma das opções fornecidas.\n");
             }
         }  
@@ -243,23 +237,71 @@ function placar() {
     
 }
 
-function escolhePergunta() {
-    let remover = Math.floor(Math.random() * 15);
-    let perguntasCopia = perguntas;
+function escolhePergunta(perguntas) {
+    let remover = Math.floor(Math.random() * perguntas.length);
 
-    return perguntasCopia.splice(remover, 1);
+    return perguntas.splice(remover, 1)[0];
 }
 
-function dicaCartas() {
+function dicaCartas(resposta) {
+    cartaVirada = Math.floor(Math.random() * 3);
+    opcaoEliminada = Math.floor(Math.random());
 
+    console.log("Embaralhando cartas...\n", 
+                "Escolhendo uma carta...\n",
+                "A carta virada foi:\n\n");
+    
+    if (cartaVirada == 0) {
+        console.log("Um rei! Nenhuma resposta foi eliminada.")
+    
+    } else if (cartaVirada == 1) {
+
+        console.log("Um ás!");
+        
+        if (resposta == "A") {
+            if(opcaoEliminada == 0) {
+                console.log("A opção B é falsa.");
+
+            } else {
+                console.log("A opção C é falsa.");
+
+            }
+        } else if (resposta == "B") {
+            if(opcaoEliminada == 0) {
+                console.log("A opção A é falsa.");
+
+            } else if(opcaoEliminada == 1) {
+                console.log("A opção C é falsa.");
+            }
+        } else {
+            if(opcaoEliminada == 0) {
+                console.log("A opção A é falsa.");
+
+            } else if(opcaoEliminada == 1) {
+                console.log("A opção B é falsa.");
+
+            }
+        }
+    } else {
+
+        console.log("Um duque (dois)!");
+
+        if (resposta == "A")
+            console.log("As opções B e C são falsas.");
+        
+        else if (resposta == "B")
+            console.log("As opções A e C são falsas.");
+        
+        else 
+            console.log("As opções B e C são falsas.");
+    }
+    
 }
 
-function pularVez() {
-
-}
-
-function dicaAssistente() {
-
+function dicaAssistente(dicaIn) {
+    console.log("Um ser humano disse o seguinte:\n",
+                dicaIn, "\n\n");
+    
 }
 
 function paraJogo() {
