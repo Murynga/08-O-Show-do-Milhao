@@ -12,7 +12,7 @@ placar() = mostra o placar de líderes;
 Usar o splice() pra tirar coisas do vetor;
 implementar dicas, sendo elas a das cartas (rei - não elimina nada, Ás - elimina uma alternativa, duque elimina 2 alternativas)
 pular uma pergunta e assistente natural (dica de uma inteligência humana)
-
+fazer uma função que retorna metade do dinheiro atual (ou seila) se o usuário parar 
 */
 
 const perguntas = [
@@ -171,13 +171,93 @@ function menuPrincipal() {
 
 function jogo() {
 
-    let nome, rodada;
+    let nome, rodada, prêmio, cartas = true, pular = true, assistente = true;
 
     nome = prompt("Qual é o seu nome");
 
+
     for(rodada = 1; rodada <= 5; rodada++) {
+        let perguntaAtual;
+        perguntaAtual = escolhePergunta();
+
         console.log(`-------<| ${nome} - ${rodada}ª rodada |>-------`);
 
-        console.log("");
+        console.log(perguntaAtual.pergunta);
+
+        console.log(`\n${alternativa1}`);
+        console.log(`${alternativa2}`);
+        console.log(`${alternativa3}`);
+
+        console.log("Digite a letra correspondente a sua alernativa, ou digite\n",
+                    "1. Cartas | 2. Pular | 3. Assistente natural\n",
+                    "para usar uma dica, ou digite P para parar.\n\n");
+
+        while(opcao != "A", "B", "C", "P", "1", "2", "3") {
+
+            let opcao = prompt("Opção: ");
+
+            checaOpcao: if (opcao.toUpperCase() == perguntaAtual.resposta) {
+                console.log("Certa resposta!");
+
+            } else if (opcao.toUpperCase() == "A", "B", "C" && opcao.toUpperCase() != perguntaAtual.resposta) {
+                console.log("Reposta errada, sinto muito...");
+
+            } else if (opcao.toUpperCase() == "1") {
+                if (cartas == false) {
+                    console.log("Você já usou as cartas!");
+                    opcao = "0";
+                    break checaOpcao;
+                }
+                dicaCartas();
+                cartas = false;
+                
+            } else if (opcao.toUpperCase() == "2") {
+                if (cartas == false) {
+                    console.log("Você já pulou uma pergunta!");
+                    opcao = "0";
+                    break checaOpcao;
+                }
+                pularVez();
+                pular = false;
+
+            } else if (opcao.toUpperCase() == "3") {
+                if (cartas == false) {
+                    console.log("Você já usou o assistente natural!");
+                    opcao = "0";
+                    break checaOpcao;
+                }
+                dicaAssistente();
+                assistente = false;
+
+            } else if (opcao.toUpperCase() == "P") {
+                paraJogo();
+                
+            } else if (opcao.toUpperCase() != "A", "B", "C", "P", "1", "2", "3") {
+                console.log("\nDigite uma das opções fornecidas.\n");
+            }
+        }  
     }
+}
+
+function escolhePergunta() {
+    let remover = Math.floor(Math.random() * 15);
+    let perguntasCopia = perguntas;
+
+    return perguntasCopia.splice(remover, 1);
+}
+
+function dicaCartas() {
+
+}
+
+function pularVez() {
+
+}
+
+function dicaAssistente() {
+
+}
+
+function paraJogo() {
+
 }
