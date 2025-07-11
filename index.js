@@ -239,6 +239,10 @@ function jogo() {
     }
 }
 
+function placar() {
+    
+}
+
 function escolhePergunta() {
     let remover = Math.floor(Math.random() * 15);
     let perguntasCopia = perguntas;
