@@ -4,13 +4,6 @@ menuPrincipal() = para mostrar o menu principal;
 jogo() = para começar o jogo;
 placar() = mostra o placar de líderes;
 
-
-**Anotações (apagar depois):
-
-Usar o splice() pra tirar coisas do vetor;
-implementar dicas, sendo elas a das cartas (rei - não elimina nada, Ás - elimina uma alternativa, duque elimina 2 alternativas)
-pular uma pergunta e assistente natural (dica de uma inteligência humana)
-fazer uma função que retorna metade do dinheiro atual (ou seila) se o usuário parar 
 */
 
 var perguntas = [
@@ -172,28 +165,20 @@ function menuPrincipal() {
 function jogo() {
 
     let perguntasRestantes = [...perguntas];
-    let nome, rodada, prêmio, cartas = true, pular = true, assistente = true;
+    let nome, rodada, premio, cartas = true, assistente = true;
     const prompt = require('prompt-sync')();
 
     console.log("");
     nome = prompt("Digite seu nome:");
 
 
-    for(rodada = 1; rodada <= 5; rodada++) {
+    for(rodada = 1; rodada <= 10; rodada++) {
         let perguntaAtual, opcao = "J";
         perguntaAtual = escolhePergunta(perguntasRestantes);
 
-        console.log(`-------<| ${nome} - ${rodada}ª rodada |>-------\n`);
+        console.log(`-------<| ${nome} - ${rodada}ª rodada |>-------\n\n`);
 
-        console.log(perguntaAtual.pergunta);
-
-        console.log(`\n${perguntaAtual.alternativa1}`);
-        console.log(`${perguntaAtual.alternativa2}`);
-        console.log(`${perguntaAtual.alternativa3}`);
-
-        console.log("\nDigite a letra correspondente a sua alernativa, ou digite\n",
-                    "1. Cartas | 2. Assistente natural\n",
-                    "para usar uma dica, ou digite P para parar.\n\n");
+        exibePergunta(rodada, perguntaAtual);
 
         while (!["A", "B", "C", "P", "1", "2"].includes(opcao.toUpperCase())) {
 
@@ -204,6 +189,7 @@ function jogo() {
 
             } else if (opcao.toUpperCase() == "A", "B", "C" && opcao.toUpperCase() != perguntaAtual.resposta) {
                 console.log("Reposta errada, sinto muito...");
+                premio = perdeJogo(rodada);
 
             } else if (opcao.toUpperCase() == "1") {
                 if (cartas == false) {
@@ -215,7 +201,7 @@ function jogo() {
                 cartas = false;
                 
             } else if (opcao.toUpperCase() == "2") {
-                if (cartas == false) {
+                if (assistente == false) {
                     console.log("Você já usou o assistente natural!");
                     opcao = "0";
                     break checaOpcao;
@@ -224,17 +210,55 @@ function jogo() {
                 assistente = false;
 
             } else if (opcao.toUpperCase() == "P") {
-                paraJogo();
+                paraJogo(rodada);
                 
             } else if (opcao.toUpperCase() != "A", "B", "C", "P", "1", "2") {
                 console.log("\nDigite uma das opções fornecidas.\n");
             }
-        }  
+        } if (rodada > 10) {
+            console.log("Parabéns, você ganhou o prêmio final de 1.000.000 de reais!\n");
+            atualizaPlacar(nome, rodada, premio);
+        }
     }
 }
 
 function placar() {
+
+    const fs = require("fs");
     
+    try {
+    
+    const placarArquivo = fs.readFileSync("placar.json", "utf8");
+
+    } catch (error) {
+    console.error("Ocorreu um erro ao ler o placar: ", error);
+
+    }
+    const placar = JSON.parse(placarArquivo);
+    
+
+}
+
+async function atualizaPlacar(nomeJogador, rodadaJogador, premioJogador) {
+    
+    const fs = require("fs");
+
+    let jogador = {
+        nomeJogador: nome,
+        rodadaJogador: rodada,
+        premioJogador: premio
+    }
+
+    let jogadorArquivo = JSON.stringify(jogador);
+
+    try {
+    
+        fs.appendFile("placar.json", jogadorArquivo, 'utf8');
+
+    } catch (error) {
+        console.error("Ocorreu um erro ao atualizar o placar: ", error);
+
+    }
 }
 
 function escolhePergunta(perguntas) {
@@ -249,7 +273,7 @@ function dicaCartas(resposta) {
 
     console.log("Embaralhando cartas...\n", 
                 "Escolhendo uma carta...\n",
-                "A carta virada foi:\n\n");
+                "A carta virada foi: \n\n");
     
     if (cartaVirada == 0) {
         console.log("Um rei! Nenhuma resposta foi eliminada.")
@@ -293,7 +317,7 @@ function dicaCartas(resposta) {
             console.log("As opções A e C são falsas.");
         
         else 
-            console.log("As opções B e C são falsas.");
+            console.log("As opções A e B são falsas.");
     }
     
 }
@@ -304,6 +328,145 @@ function dicaAssistente(dicaIn) {
     
 }
 
-function paraJogo() {
+function paraJogo(rodada) {
+    if (rodada == 1) {
+        console.log("Você saiu sem nada!");
+        
+    } else if (rodada == 2) {
+        console.log("Você saiu com 1.000 reais!");
+        return 1000;
 
+    } else if (rodada == 3) {
+        console.log("Você saiu com 3.000 reais!");
+        return 3000;
+
+    } else if (rodada == 4) {
+        console.log("Você saiu com 5.000 reais!");
+        return 5000;
+
+    } else if (rodada == 5) {
+        console.log("Você saiu com 10.000 reais!");
+        return 10000;
+
+    } else if (rodada == 6) {
+        console.log("Você saiu com 30.000 reais!");
+        return 30000;
+
+    } else if (rodada == 7) {
+        console.log("Você saiu com 50.000 reais!");
+        return 50000;
+
+    } else if (rodada == 8) {
+        console.log("Você saiu com 100.000 reais!");
+        return 100000;
+
+    } else if (rodada == 9) {
+        console.log("Você saiu com 300.000 reais!");
+        return 300000;
+
+    } else  {
+        console.log("Você saiu com 500.000 reais!");
+        return 500000;
+
+    }
+}
+
+function premiacao(rodada) {
+    if (rodada == 1)
+        console.log("Acertar: 1.000 R$ | Errar: nada | Parar: nada\n");
+
+    else if (rodada == 2)
+        console.log("Acertar: 3.000 R$ | Errar: 500 R$ | Parar: 1.000 R$\n");
+
+    else if (rodada == 3)
+        console.log("Acertar: 5.000 R$ | Errar: 1.500 R$ | Parar: 1.000 R$\n");
+
+    else if (rodada == 4)
+        console.log("Acertar: 10.000 R$ | Errar: 2.500 R$ | Parar: 1.000 R$\n");
+
+    else if (rodada == 5)
+        console.log("Acertar: 30.000 R$ | Errar: 5.000 R$ | Parar: 1.000 R$\n");
+
+    else if (rodada == 6)
+        console.log("Acertar: 50.000 R$ | Errar: 15.000 R$ | Parar: 1.000 R$\n");
+
+    else if (rodada == 7)
+        console.log("Acertar: 100.000 R$ | Errar: 25.000 R$ | Parar: 1.000 R$\n");
+
+    else if (rodada == 8)
+        console.log("Acertar: 300.000 R$ | Errar: 50.000 R$ | Parar: 1.000 R$\n");
+
+    else if (rodada == 9)
+        console.log("Acertar: 500.000 R$ | Errar: 150.000 R$ | Parar: 1.000 R$\n");
+
+    else
+        console.log("Acertar: 1.000.000 R$ | Errar: perde tudo | Parar: 500.000 R$\n");
+       
+}
+
+function exibePergunta(rodada, perguntaAtual) {
+    premiacao(rodada);
+
+        console.log(perguntaAtual.pergunta);
+
+        console.log(`\n${perguntaAtual.alternativa1}`);
+        console.log(`${perguntaAtual.alternativa2}`);
+        console.log(`${perguntaAtual.alternativa3}`);
+
+        console.log("\nDigite a letra correspondente a sua alernativa, ou digite\n",
+                    "1. Cartas | 2. Assistente natural\n",
+                    "para usar uma dica, ou digite P para parar.\n\n");
+
+}
+
+/*
+primeira rodada 0 reais, se acertar recebe 1 mil, se perder recebe nada, se parar recebe nada;
+segunda rodada, se acertar ganha 3 mil, se errar recebe 500 reais, se parar recebe 1 mil reais;
+terceira rodada, se acertar ganha 5 mil, se errar recebe 1,5 mil reais, se parar recebe 3 mil reais;
+quarta rodada, se acertar ganha 10 mil, se errar recebe 2,5 mil reais, se parar recebe 5 mil reais;
+quinta rodada, se acertar ganha 30 mil, se errar recebe 5 mil reais, se parar recebe 10 mil reais;
+sexta rodada, se acertar ganha 50 mil, se errar recebe 15 mil reais, se parar recebe 30 mil reais;
+sétima rodada, se acertar ganha 100 mil, se errar recebe 25 mil reais, se parar recebe 50 mil reais;
+oitava rodada, se acertar ganha 300 mil, se errar recebe 50 mil reais, se parar recebe 100 mil reais;
+nona rodada, se acertar ganha 500 mil, se errar recebe 150 mil reais, se parar recebe 300 mil reais;
+última rodada, se acertar ganha 1 milhão, se errar perde tudo, se parar recebe 500 mil reais;
+*/
+
+function perdeJogo(rodada) {
+    if (rodada == 1 || rodada == 10) {
+        console.log("Você saiu sem nada!");
+        
+    } else if (rodada == 2) {
+        console.log("Você saiu com 500 reais!");
+        return 500;
+
+    } else if (rodada == 3) {
+        console.log("Você saiu com 1.500 reais!");
+        return 1500;
+
+    } else if (rodada == 4) {
+        console.log("Você saiu com 2.500 reais!");
+        return 2500;
+
+    } else if (rodada == 5) {
+        console.log("Você saiu com 5.000 reais!");
+        return 5000;
+
+    } else if (rodada == 6) {
+        console.log("Você saiu com 15.000 reais!");
+        return 15000;
+
+    } else if (rodada == 7) {
+        console.log("Você saiu com 25.000 reais!");
+        return 25000;
+
+    } else if (rodada == 8) {
+        console.log("Você saiu com 50.000 reais!");
+        return 50000;
+
+    } else {
+        console.log("Você saiu com 150.000 reais!");
+        return 150000;
+
+    } 
 }
