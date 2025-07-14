@@ -1,10 +1,5 @@
-/* Funções
-
-menuPrincipal() = para mostrar o menu principal;
-jogo() = para começar o jogo;
-placar() = mostra o placar de líderes;
-
-*/
+const path = require("path");
+const arquivoPlacar = path.join(__dirname, "placar.json");
 
 var perguntas = [
     {
@@ -129,37 +124,42 @@ var perguntas = [
     }
 ]
 
+
+
+
 menuPrincipal();
+
 
 function menuPrincipal() {
 
     const prompt = require('prompt-sync')();
 
-    console.log("-------<| Show do Milhão |>-------\n\n", 
-                 
-                "Bem-vindo! Você deseja...\n\n",
-                
-                "[1] Jogar;\n",
-                "[2] Ver placar de líderes;\n",
-                "[Outro caractere] para encerrar.\n\n");
-                
-    let opcao = prompt("Opção: ");
-    
-    switch(opcao) {
+    while(true) {
+        console.log("-------<| Show do Milhão |>-------\n\n", 
+                    
+                    "Bem-vindo! Você deseja...\n\n",
+                    
+                    "[1] Jogar;\n",
+                    "[2] Ver placar de líderes;\n",
+                    "[Outro caractere] para encerrar.\n\n");
+                    
+        let opcaoMenu = prompt("Opção: ");
+        
+        switch(opcaoMenu) {
 
-    case "1":
-        jogo();
-        break;
+        case "1":
+            jogo();
+            break;
 
-    case "2":
-        placar();
-        break;
+        case "2":
+            placar();
+            break;
 
-    default:
-        console.log("Até mais!");
-        process.exit(0);
+        default:
+            console.log("Até mais!");
+            process.exit(0);
+        }
     }
-    
 }
 
 function jogo() {
@@ -169,14 +169,14 @@ function jogo() {
     const prompt = require('prompt-sync')();
 
     console.log("");
-    nome = prompt("Digite seu nome:");
+    nome = prompt("Digite seu nome: ");
 
 
     for(rodada = 1; rodada <= 10; rodada++) {
         let perguntaAtual, opcao = "J";
         perguntaAtual = escolhePergunta(perguntasRestantes);
 
-        console.log(`-------<| ${nome} - ${rodada}ª rodada |>-------\n\n`);
+        console.log(`\n-------<| ${nome} - ${rodada}ª rodada |>-------\n\n`);
 
         exibePergunta(rodada, perguntaAtual);
 
@@ -187,9 +187,11 @@ function jogo() {
             checaOpcao: if (opcao.toUpperCase() == perguntaAtual.resposta) {
                 console.log("Certa resposta!");
 
-            } else if (opcao.toUpperCase() == "A", "B", "C" && opcao.toUpperCase() != perguntaAtual.resposta) {
+            } else if (["A", "B", "C"].includes(opcao.toUpperCase()) && opcao.toUpperCase() != perguntaAtual.resposta) {
                 console.log("Reposta errada, sinto muito...");
                 premio = perdeJogo(rodada);
+                atualizaPlacar(nome, rodada, premio);
+                return;
 
             } else if (opcao.toUpperCase() == "1") {
                 if (cartas == false) {
@@ -210,7 +212,7 @@ function jogo() {
                 assistente = false;
 
             } else if (opcao.toUpperCase() == "P") {
-                paraJogo(rodada);
+                premio = paraJogo(rodada);
                 
             } else if (opcao.toUpperCase() != "A", "B", "C", "P", "1", "2") {
                 console.log("\nDigite uma das opções fornecidas.\n");
@@ -228,32 +230,55 @@ function placar() {
     
     try {
     
-    const placarArquivo = fs.readFileSync("placar.json", "utf8");
+    const placarArquivo = fs.readFileSync(arquivoPlacar, "utf8");
+    const placar = JSON.parse(placarArquivo);
+
+    console.log("-------<| Placar de líderes |>-------\n\n");
+
+    placar.forEach((jogador, posicao) => {
+
+        console.log(`${posicao + 1}º Lugar:\n`,
+                    `Nome: ${jogador.nome};`,
+                    `Rodada: ${jogador.rodada}ª;`,
+                    `Prêmio: R$ ${jogador.premio}\n\n`);
+    });
 
     } catch (error) {
     console.error("Ocorreu um erro ao ler o placar: ", error);
 
-    }
-    const placar = JSON.parse(placarArquivo);
-    
+    } 
 
 }
 
-async function atualizaPlacar(nomeJogador, rodadaJogador, premioJogador) {
+function atualizaPlacar(nome, rodada, premio) {
     
     const fs = require("fs");
+    const path = require("path");
+    const arquivoPlacar = path.join(__dirname, "placar.json");
 
+    let todoPlacar = [];
     let jogador = {
-        nomeJogador: nome,
-        rodadaJogador: rodada,
-        premioJogador: premio
+        nome: nome,
+        rodada: rodada,
+        premio: premio
     }
-
-    let jogadorArquivo = JSON.stringify(jogador);
-
-    try {
     
-        fs.appendFile("placar.json", jogadorArquivo, 'utf8');
+    try {
+
+        if (fs.existsSync(arquivoPlacar)) {
+            let dadosPlacar = fs.readFileSync(arquivoPlacar, "utf8");
+            
+            if (dadosPlacar) {
+                todoPlacar = JSON.parse(dadosPlacar);
+            }
+        }
+
+        todoPlacar.push(jogador);
+        todoPlacar.sort((a, b) => b.premio - a.premio);
+
+        let novoPlacar = JSON.stringify(todoPlacar, null, 2);
+
+        fs.writeFileSync(arquivoPlacar, novoPlacar, "utf8");
 
     } catch (error) {
         console.error("Ocorreu um erro ao atualizar o placar: ", error);
@@ -262,14 +287,14 @@ async function atualizaPlacar(nomeJogador, rodadaJogador, premioJogador) {
 }
 
 function escolhePergunta(perguntas) {
-    let remover = Math.floor(Math.random() * perguntas.length);
+    let remover = Math.round(Math.random() * perguntas.length);
 
     return perguntas.splice(remover, 1)[0];
 }
 
 function dicaCartas(resposta) {
-    cartaVirada = Math.floor(Math.random() * 3);
-    opcaoEliminada = Math.floor(Math.random());
+    cartaVirada = Math.round(Math.random() * 3);
+    opcaoEliminada = Math.round(Math.random());
 
     console.log("Embaralhando cartas...\n", 
                 "Escolhendo uma carta...\n",
@@ -331,6 +356,7 @@ function dicaAssistente(dicaIn) {
 function paraJogo(rodada) {
     if (rodada == 1) {
         console.log("Você saiu sem nada!");
+        return 0;
         
     } else if (rodada == 2) {
         console.log("Você saiu com 1.000 reais!");
@@ -420,7 +446,7 @@ function exibePergunta(rodada, perguntaAtual) {
 }
 
 /*
-primeira rodada 0 reais, se acertar recebe 1 mil, se perder recebe nada, se parar recebe nada;
+primeira rodada sem nada, se acertar recebe 1 mil, se perder recebe nada, se parar recebe nada;
 segunda rodada, se acertar ganha 3 mil, se errar recebe 500 reais, se parar recebe 1 mil reais;
 terceira rodada, se acertar ganha 5 mil, se errar recebe 1,5 mil reais, se parar recebe 3 mil reais;
 quarta rodada, se acertar ganha 10 mil, se errar recebe 2,5 mil reais, se parar recebe 5 mil reais;
