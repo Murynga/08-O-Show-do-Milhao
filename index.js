@@ -178,76 +178,96 @@ function jogo() {
 
         console.log(`\n-------<| ${nome} - ${rodada}ª rodada |>-------\n\n`);
 
-        exibePergunta(rodada, perguntaAtual);
+        while (true) {
+    
+            exibePergunta(rodada, perguntaAtual);
 
-        while (!["A", "B", "C", "P", "1", "2"].includes(opcao.toUpperCase())) {
+            opcao = prompt("Opção: ").toUpperCase();
 
-            opcao = prompt("Opção: ");
+            if (["A", "B", "C"].includes(opcao)) {
 
-            checaOpcao: if (opcao.toUpperCase() == perguntaAtual.resposta) {
-                console.log("Certa resposta!");
+                if (opcao == perguntaAtual.resposta) {
+                    console.log("\nCerta resposta!\n");
 
-            } else if (["A", "B", "C"].includes(opcao.toUpperCase()) && opcao.toUpperCase() != perguntaAtual.resposta) {
-                console.log("Reposta errada, sinto muito...");
-                premio = perdeJogo(rodada);
+                    if (rodada == 10) {
+                        console.log("Parabéns, você ganhou o prêmio final de 1.000.000 de reais!\n");
+                        premio = 1000000;
+                        atualizaPlacar(nome, rodada, premio);
+                        return;
+
+                    }
+                    break;
+                } else {
+                    console.log("\nReposta errada, sinto muito...");
+                    premio = perdeJogo(rodada);
+                    atualizaPlacar(nome, rodada, premio);
+                    return;
+
+                }
+            } else if (opcao == "P") {
+                premio = paraJogo(rodada);
                 atualizaPlacar(nome, rodada, premio);
                 return;
+            
+            } else if (opcao == "1") {
 
-            } else if (opcao.toUpperCase() == "1") {
-                if (cartas == false) {
-                    console.log("Você já usou as cartas!");
-                    opcao = "0";
-                    break checaOpcao;
-                }
-                dicaCartas(perguntaAtual.resposta);
-                cartas = false;
-                
-            } else if (opcao.toUpperCase() == "2") {
-                if (assistente == false) {
-                    console.log("Você já usou o assistente natural!");
-                    opcao = "0";
-                    break checaOpcao;
-                }
-                dicaAssistente(perguntaAtual.dicaIn);
-                assistente = false;
+                if (cartas) {
+                    dicaCartas(perguntaAtual.resposta);
+                    cartas = false;
 
-            } else if (opcao.toUpperCase() == "P") {
-                premio = paraJogo(rodada);
+                } else {
+                    console.log("\nVocê já usou a dica das cartas!\n");
+
+                }
+
+            } else if (opcao == "2") {
+
+                if (assistente) {
+                    dicaAssistente(perguntaAtual.dicaIn);
+                    assistente = false;
+
+                } else {
+                    console.log("\nVocê já usou a dica do assistente!\n");
+
+                }
                 
-            } else if (opcao.toUpperCase() != "A", "B", "C", "P", "1", "2") {
-                console.log("\nDigite uma das opções fornecidas.\n");
+
+            } else {
+                console.log("\nOpção inválida. Digite A, B, C, P, 1 ou 2.\n");
+
             }
-        } if (rodada > 10) {
-            console.log("Parabéns, você ganhou o prêmio final de 1.000.000 de reais!\n");
-            atualizaPlacar(nome, rodada, premio);
-        }
+        } 
     }
 }
 
 function placar() {
 
     const fs = require("fs");
+
+    if (!fs.existsSync(arquivoPlacar)) {
+        console.log("O placar está vazio!\n\n");
+
+    } else {
+        try {
+        
+        const placarArquivo = fs.readFileSync(arquivoPlacar, "utf8");
+        const placar = JSON.parse(placarArquivo);
     
-    try {
+        console.log("-------<| Placar de líderes |>-------\n\n");
     
-    const placarArquivo = fs.readFileSync(arquivoPlacar, "utf8");
-    const placar = JSON.parse(placarArquivo);
-
-    console.log("-------<| Placar de líderes |>-------\n\n");
-
-    placar.forEach((jogador, posicao) => {
-
-        console.log(`${posicao + 1}º Lugar:\n`,
-                    `Nome: ${jogador.nome};`,
-                    `Rodada: ${jogador.rodada}ª;`,
-                    `Prêmio: R$ ${jogador.premio}\n\n`);
-    });
-
-    } catch (error) {
-    console.error("Ocorreu um erro ao ler o placar: ", error);
-
-    } 
-
+        placar.forEach((jogador, posicao) => {
+    
+            console.log(`${posicao + 1}º Lugar:\n`,
+                        `Nome: ${jogador.nome};`,
+                        `Rodada: ${jogador.rodada}ª;`,
+                        `Prêmio: R$ ${jogador.premio}\n\n`);
+        });
+    
+        } catch (error) {
+        console.error("Ocorreu um erro ao ler o placar: ", error);
+    
+        } 
+    }
 }
 
 function atualizaPlacar(nome, rodada, premio) {
@@ -348,50 +368,53 @@ function dicaCartas(resposta) {
 }
 
 function dicaAssistente(dicaIn) {
-    console.log("Um ser humano disse o seguinte:\n",
+    console.log("\nUm ser humano disse o seguinte:\n\n",
                 dicaIn, "\n\n");
     
 }
 
 function paraJogo(rodada) {
+    console.log("");
+    
+
     if (rodada == 1) {
-        console.log("Você saiu sem nada!");
+        console.log("Você saiu sem nada!\n");
         return 0;
         
     } else if (rodada == 2) {
-        console.log("Você saiu com 1.000 reais!");
+        console.log("Você saiu com 1.000 reais!\n");
         return 1000;
 
     } else if (rodada == 3) {
-        console.log("Você saiu com 3.000 reais!");
+        console.log("Você saiu com 3.000 reais!\n");
         return 3000;
 
     } else if (rodada == 4) {
-        console.log("Você saiu com 5.000 reais!");
+        console.log("Você saiu com 5.000 reais!\n");
         return 5000;
 
     } else if (rodada == 5) {
-        console.log("Você saiu com 10.000 reais!");
+        console.log("Você saiu com 10.000 reais!\n");
         return 10000;
 
     } else if (rodada == 6) {
-        console.log("Você saiu com 30.000 reais!");
+        console.log("Você saiu com 30.000 reais!\n");
         return 30000;
 
     } else if (rodada == 7) {
-        console.log("Você saiu com 50.000 reais!");
+        console.log("Você saiu com 50.000 reais!\n");
         return 50000;
 
     } else if (rodada == 8) {
-        console.log("Você saiu com 100.000 reais!");
+        console.log("Você saiu com 100.000 reais!\n");
         return 100000;
 
     } else if (rodada == 9) {
-        console.log("Você saiu com 300.000 reais!");
+        console.log("Você saiu com 300.000 reais!\n");
         return 300000;
 
     } else  {
-        console.log("Você saiu com 500.000 reais!");
+        console.log("Você saiu com 500.000 reais!\n");
         return 500000;
 
     }
@@ -445,53 +468,40 @@ function exibePergunta(rodada, perguntaAtual) {
 
 }
 
-/*
-primeira rodada sem nada, se acertar recebe 1 mil, se perder recebe nada, se parar recebe nada;
-segunda rodada, se acertar ganha 3 mil, se errar recebe 500 reais, se parar recebe 1 mil reais;
-terceira rodada, se acertar ganha 5 mil, se errar recebe 1,5 mil reais, se parar recebe 3 mil reais;
-quarta rodada, se acertar ganha 10 mil, se errar recebe 2,5 mil reais, se parar recebe 5 mil reais;
-quinta rodada, se acertar ganha 30 mil, se errar recebe 5 mil reais, se parar recebe 10 mil reais;
-sexta rodada, se acertar ganha 50 mil, se errar recebe 15 mil reais, se parar recebe 30 mil reais;
-sétima rodada, se acertar ganha 100 mil, se errar recebe 25 mil reais, se parar recebe 50 mil reais;
-oitava rodada, se acertar ganha 300 mil, se errar recebe 50 mil reais, se parar recebe 100 mil reais;
-nona rodada, se acertar ganha 500 mil, se errar recebe 150 mil reais, se parar recebe 300 mil reais;
-última rodada, se acertar ganha 1 milhão, se errar perde tudo, se parar recebe 500 mil reais;
-*/
-
 function perdeJogo(rodada) {
     if (rodada == 1 || rodada == 10) {
-        console.log("Você saiu sem nada!");
+        console.log("Você saiu sem nada!\n");
         
     } else if (rodada == 2) {
-        console.log("Você saiu com 500 reais!");
+        console.log("Você saiu com 500 reais!\n");
         return 500;
 
     } else if (rodada == 3) {
-        console.log("Você saiu com 1.500 reais!");
+        console.log("Você saiu com 1.500 reais!\n");
         return 1500;
 
     } else if (rodada == 4) {
-        console.log("Você saiu com 2.500 reais!");
+        console.log("Você saiu com 2.500 reais!\n");
         return 2500;
 
     } else if (rodada == 5) {
-        console.log("Você saiu com 5.000 reais!");
+        console.log("Você saiu com 5.000 reais!\n");
         return 5000;
 
     } else if (rodada == 6) {
-        console.log("Você saiu com 15.000 reais!");
+        console.log("Você saiu com 15.000 reais!\n");
         return 15000;
 
     } else if (rodada == 7) {
-        console.log("Você saiu com 25.000 reais!");
+        console.log("Você saiu com 25.000 reais!\n");
         return 25000;
 
     } else if (rodada == 8) {
-        console.log("Você saiu com 50.000 reais!");
+        console.log("Você saiu com 50.000 reais!\n");
         return 50000;
 
     } else {
-        console.log("Você saiu com 150.000 reais!");
+        console.log("Você saiu com 150.000 reais!\n");
         return 150000;
 
     } 
