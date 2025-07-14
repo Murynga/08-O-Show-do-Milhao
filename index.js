@@ -13,8 +13,8 @@ var perguntas = [
     {
         pergunta: "Qual das seguintes frases foi popularizada por J. Robert Oppenheimer?",
         alternativa1: "A) \"Agora me tornei Morte, o destruidor de mundos.\"",
-        alternativa2: "B) \"Um vencedor é um sonhador que nunca desiste.\"", //Nelson Mandela
-        alternativa3: "C) \"Em meio à escuridão, a luz persiste.\"", //Mahatma Gandhi
+        alternativa2: "B) \"Um vencedor é um sonhador que nunca desiste.\"",
+        alternativa3: "C) \"Em meio à escuridão, a luz persiste.\"",
         resposta: "A",
         dicaIn: "Não é algo muito positivo."
     },
@@ -67,7 +67,7 @@ var perguntas = [
         dicaIn: "Foi antes de 2004."
     },
     {
-        pergunta: "Quem foi Edson Arantes do Nascimento",
+        pergunta: "Quem foi Edson Arantes do Nascimento?",
         alternativa1: "A) Cálcio",
         alternativa2: "B) Tostão",
         alternativa3: "C) Pelé",
@@ -75,7 +75,7 @@ var perguntas = [
         dicaIn: "Ele marcou mais de 400 gols em sua carreira."
     },
     {
-        pergunta: "Qual dos seguintes aeroportos se localiza na cidade do Rio de janeiro? ",
+        pergunta: "Qual dos seguintes aeroportos se localiza na cidade do Rio de janeiro?",
         alternativa1: "A) Aeroporto Santos Dumont",
         alternativa2: "B) Aeroporto Luís Eduardo Magalhães",
         alternativa3: "C) Aeroporto Santa Genoveva",
@@ -156,7 +156,7 @@ function menuPrincipal() {
             break;
 
         default:
-            console.log("Até mais!");
+            console.log("\nAté mais!");
             process.exit(0);
         }
     }
@@ -190,7 +190,7 @@ function jogo() {
                     console.log("\nCerta resposta!\n");
 
                     if (rodada == 10) {
-                        console.log("Parabéns, você ganhou o prêmio final de 1.000.000 de reais!\n");
+                        console.log("Parabéns, você ganhou o prêmio final de 1.000.000 de reais, na 10ª de 10 rodadas!\n");
                         premio = 1000000;
                         atualizaPlacar(nome, rodada, premio);
                         return;
@@ -199,13 +199,13 @@ function jogo() {
                     break;
                 } else {
                     console.log("\nReposta errada, sinto muito...");
-                    premio = perdeJogo(rodada);
+                    premio = perdeJogo(rodada, perguntaAtual.resposta);
                     atualizaPlacar(nome, rodada, premio);
                     return;
 
                 }
             } else if (opcao == "P") {
-                premio = paraJogo(rodada);
+                premio = paraJogo(rodada, perguntaAtual.resposta);
                 atualizaPlacar(nome, rodada, premio);
                 return;
             
@@ -373,48 +373,58 @@ function dicaAssistente(dicaIn) {
     
 }
 
-function paraJogo(rodada) {
+function paraJogo(rodada, resposta) {
     console.log("");
     
 
     if (rodada == 1) {
-        console.log("Você saiu sem nada!\n");
+        console.log("Você saiu sem nada, na 1ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 0;
         
     } else if (rodada == 2) {
-        console.log("Você saiu com 1.000 reais!\n");
+        console.log("Você saiu com 1.000, na 2ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 1000;
 
     } else if (rodada == 3) {
-        console.log("Você saiu com 3.000 reais!\n");
+        console.log("Você saiu com 3.000, na 3ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 3000;
 
     } else if (rodada == 4) {
-        console.log("Você saiu com 5.000 reais!\n");
+        console.log("Você saiu com 5.000, na 4ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 5000;
 
     } else if (rodada == 5) {
-        console.log("Você saiu com 10.000 reais!\n");
+        console.log("Você saiu com 10.000, na 5ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 10000;
 
     } else if (rodada == 6) {
-        console.log("Você saiu com 30.000 reais!\n");
+        console.log("Você saiu com 30.000, na 6ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 30000;
 
     } else if (rodada == 7) {
-        console.log("Você saiu com 50.000 reais!\n");
+        console.log("Você saiu com 50.000, na 7ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 50000;
 
     } else if (rodada == 8) {
-        console.log("Você saiu com 100.000 reais!\n");
+        console.log("Você saiu com 100.000, na 8ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 100000;
 
     } else if (rodada == 9) {
-        console.log("Você saiu com 300.000 reais!\n");
+        console.log("Você saiu com 300.000, na 9ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 300000;
 
     } else  {
-        console.log("Você saiu com 500.000 reais!\n");
+        console.log("Você saiu com 500.000, na 10ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 500000;
 
     }
@@ -463,46 +473,58 @@ function exibePergunta(rodada, perguntaAtual) {
         console.log(`${perguntaAtual.alternativa3}`);
 
         console.log("\nDigite a letra correspondente a sua alernativa, ou digite\n",
-                    "1. Cartas | 2. Assistente natural\n",
+                    "1. Cartas | 2. Assistente Natural\n",
                     "para usar uma dica, ou digite P para parar.\n\n");
 
 }
 
-function perdeJogo(rodada) {
-    if (rodada == 1 || rodada == 10) {
-        console.log("Você saiu sem nada!\n");
+function perdeJogo(rodada, resposta) {
+    if (rodada == 1) {
+        console.log("Você saiu sem nada, na 1ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         
     } else if (rodada == 2) {
-        console.log("Você saiu com 500 reais!\n");
+        console.log("Você saiu com 500 reais, na 2ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 500;
 
     } else if (rodada == 3) {
-        console.log("Você saiu com 1.500 reais!\n");
+        console.log("Você saiu com 1.500 reais, na 3ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 1500;
 
     } else if (rodada == 4) {
-        console.log("Você saiu com 2.500 reais!\n");
+        console.log("Você saiu com 2.500 reais, na 4ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 2500;
 
     } else if (rodada == 5) {
-        console.log("Você saiu com 5.000 reais!\n");
+        console.log("Você saiu com 5.000 reais, na 5ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 5000;
 
     } else if (rodada == 6) {
-        console.log("Você saiu com 15.000 reais!\n");
+        console.log("Você saiu com 15.000 reais, na 6ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 15000;
 
     } else if (rodada == 7) {
-        console.log("Você saiu com 25.000 reais!\n");
+        console.log("Você saiu com 25.000 reais, na 7ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 25000;
 
     } else if (rodada == 8) {
-        console.log("Você saiu com 50.000 reais!\n");
+        console.log("Você saiu com 50.000 reais, na 8ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 50000;
 
-    } else {
-        console.log("Você saiu com 150.000 reais!\n");
+    } else if (rodada == 9) {
+        console.log("Você saiu com 150.000 reais, na 9ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
         return 150000;
 
-    } 
+    } else {
+        console.log("Você saiu sem nada, na 10ª de 10 rodadas!\n", 
+                    `A resposta era: '${resposta}'.\n`);
+    }
 }
