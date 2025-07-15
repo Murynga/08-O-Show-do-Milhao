@@ -124,4 +124,4 @@ https://aventurasnahistoria.com.br/noticias/reportagem/show-do-milhao-programa-a
 
 ## Licença do projeto
 
-Este repositório é público e livre para uso em quaisquer atividades. Distribuído com a licença MIT.
+Este repositório é público e distribuído com a [licença MIT](./LICENSE.md).
